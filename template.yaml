@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FarmCraft SAM Application
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.14
+    MemorySize: 128
+
+Resources:
+  # FarmCraftBucket:
+  #   Type: AWS::S3::Bucket
+  #   Properties:
+  #     BucketName: farmcraft
+
+  Builds:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Builds
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  Materials:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Materials
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  Blocks:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Blocks
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  GetAllBuildsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_all_builds/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Builds
+      Events:
+        GetAllBuilds:
+          Type: Api
+          Properties:
+            Path: /builds
+            Method: get
+
+Outputs:
+  BuildsTableName:
+    Description: Builds DynamoDB Table
+    Value: !Ref Builds
+  MaterialsTableName:
+    Description: Materials DynamoDB Table
+    Value: !Ref Materials
+  BlocksTableName:
+    Description: Blocks DynamoDB Table
+    Value: !Ref Blocks
