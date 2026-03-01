@@ -17,12 +17,12 @@ def lambda_handler(event, context):
 
     buildresponse = buildtable.get_item(
         Key={
-            'id': bid
+            'id': str(bid)
         }
     )
     matsresponse = materialstable.get_item(
         Key={
-            'id': bid
+            'id': str(bid)
         }
     )
     response = {
@@ -30,8 +30,8 @@ def lambda_handler(event, context):
         'materials': matsresponse.get('Item')
     }
     
-    return {
+    return{
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json'},
-        'body': json.dumps(response.get('Items', []), cls=DecimalEncoder)
+        'body': json.dumps(response, cls=DecimalEncoder)
     }
