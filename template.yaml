@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: FarmCraft SAM Application
+
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.14
+    MemorySize: 128
+
+Resources:
+  # FarmCraftBucket:
+   # Type: AWS::S3::Bucket
+    
+  #FarmCraftBucket:
+  #  Type: AWS::S3::Bucket
+
+  # Builds:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Builds
+  #     BillingMode: PAY_PER_REQUEST
+  #     AttributeDefinitions:
+  #       - AttributeName: id
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: id
+  #         KeyType: HASH
+
+  # Materials:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Materials
+  #     BillingMode: PAY_PER_REQUEST
+  #     AttributeDefinitions:
+  #       - AttributeName: id
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: id
+  #         KeyType: HASH
+
+  # Blocks:
+  #   Type: AWS::DynamoDB::Table
+  #   Properties:
+  #     TableName: Blocks
+  #     BillingMode: PAY_PER_REQUEST
+  #     AttributeDefinitions:
+  #       - AttributeName: id
+  #         AttributeType: S
+  #     KeySchema:
+  #       - AttributeName: id
+  #         KeyType: HASH
+
+  GetAllBuildsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_all_builds/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Builds
+      Events:
+        GetAllBuilds:
+          Type: Api
+          Properties:
+            Path: /builds
+            Method: get
+  
+  GetSpecificImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_specific_image/
+      Handler: app.lambda_handler
+      Policies:
+        - S3ReadPolicy:
+            BucketName: farmcraft
+      Environment:
+        Variables:
+          farmcraft: farmcraft
+      Events:
+        GetSpecificImage:
+          Type: Api
+          Properties:
+            Path:  /get-specific-image/{item}
+            Method: get
+
+  GetSpecificBuildFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_specific_build/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Builds
+        - DynamoDBReadPolicy:
+            TableName: !Ref Materials
+      Events:
+        GetSpecificBuild:
+          Type: Api
+          Properties:
+            Path: /builds/{id}
+            Method: get
+
+Outputs:
+  BuildsTableName:
+    Description: Builds DynamoDB Table
+    Value: !Ref Builds
+  MaterialsTableName:
+    Description: Materials DynamoDB Table
+    Value: !Ref Materials
+  BlocksTableName:
+    Description: Blocks DynamoDB Table
+    Value: !Ref Blocks

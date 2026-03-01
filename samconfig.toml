@@ -1,0 +1,13 @@
+version = 0.1
+
+[default.global.parameters]
+region = "us-east-1"
+
+[default.deploy.parameters]
+stack_name = "farmcraft"
+resolve_s3 = true
+capabilities = "CAPABILITY_IAM"
+confirm_changeset = true
+s3_prefix = "farmcraft"
+disable_rollback = true
+image_repositories = []
