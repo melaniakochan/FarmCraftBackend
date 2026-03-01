@@ -12,6 +12,9 @@ Resources:
   # FarmCraftBucket:
    # Type: AWS::S3::Bucket
     
+  #FarmCraftBucket:
+  #  Type: AWS::S3::Bucket
+
   Builds:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -79,6 +82,23 @@ Resources:
           Type: Api
           Properties:
             Path:  /get-specific-image/{item}
+            Method: get
+
+  GetSpecificBuildFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_specific_build/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref Builds
+        - DynamoDBReadPolicy:
+            TableName: !Ref Materials
+      Events:
+        GetSpecificBuild:
+          Type: Api
+          Properties:
+            Path: /builds/{id}
             Method: get
 
 Outputs:
