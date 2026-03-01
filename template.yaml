@@ -9,8 +9,11 @@ Globals:
     MemorySize: 128
 
 Resources:
-  FarmCraftBucket:
-    Type: AWS::S3::Bucket
+  # FarmCraftBucket:
+   # Type: AWS::S3::Bucket
+    
+  #FarmCraftBucket:
+  #  Type: AWS::S3::Bucket
 
   Builds:
     Type: AWS::DynamoDB::Table
@@ -61,6 +64,24 @@ Resources:
           Type: Api
           Properties:
             Path: /builds
+            Method: get
+  
+  GetSpecificImageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_specific_image/
+      Handler: app.lambda_handler
+      Policies:
+        - S3ReadPolicy:
+            BucketName: farmcraft
+      Environment:
+        Variables:
+          farmcraft: farmcraft
+      Events:
+        GetSpecificImage:
+          Type: Api
+          Properties:
+            Path:  /get-specific-image/{item}
             Method: get
 
   GetSpecificBuildFunction:
