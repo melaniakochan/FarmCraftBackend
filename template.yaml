@@ -11,8 +11,6 @@ Globals:
 Resources:
   FarmCraftBucket:
     Type: AWS::S3::Bucket
-    Properties:
-      BucketName: farmcraft
 
   Builds:
     Type: AWS::DynamoDB::Table
