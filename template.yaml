@@ -9,47 +9,46 @@ Globals:
     MemorySize: 128
 
 Resources:
-  # FarmCraftBucket:
-   # Type: AWS::S3::Bucket
-    
-  #FarmCraftBucket:
-  #  Type: AWS::S3::Bucket
+  FarmCraftBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: farmcraft
 
-  # Builds:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: Builds
-  #     BillingMode: PAY_PER_REQUEST
-  #     AttributeDefinitions:
-  #       - AttributeName: id
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: id
-  #         KeyType: HASH
+  Builds:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Builds
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
 
-  # Materials:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: Materials
-  #     BillingMode: PAY_PER_REQUEST
-  #     AttributeDefinitions:
-  #       - AttributeName: id
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: id
-  #         KeyType: HASH
+  Materials:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Materials
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
 
-  # Blocks:
-  #   Type: AWS::DynamoDB::Table
-  #   Properties:
-  #     TableName: Blocks
-  #     BillingMode: PAY_PER_REQUEST
-  #     AttributeDefinitions:
-  #       - AttributeName: id
-  #         AttributeType: S
-  #     KeySchema:
-  #       - AttributeName: id
-  #         KeyType: HASH
+  Blocks:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Blocks
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
 
   GetAllBuildsFunction:
     Type: AWS::Serverless::Function
