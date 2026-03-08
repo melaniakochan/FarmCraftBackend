@@ -50,6 +50,18 @@ Resources:
         - AttributeName: id
           KeyType: HASH
 
+  Users:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
   GetAllBuildsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -110,3 +122,6 @@ Outputs:
   BlocksTableName:
     Description: Blocks DynamoDB Table
     Value: !Ref Blocks
+  UsersTableName:
+    Description: Users DynamoDB Table
+    Value: !Ref Users
