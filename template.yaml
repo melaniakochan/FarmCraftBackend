@@ -112,6 +112,21 @@ Resources:
             Path: /builds/{id}
             Method: get
 
+  RegisterUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/register_user/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Events:
+        RegisterUser:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: post
+
 Outputs:
   BuildsTableName:
     Description: Builds DynamoDB Table
