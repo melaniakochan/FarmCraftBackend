@@ -50,6 +50,18 @@ Resources:
         - AttributeName: id
           KeyType: HASH
 
+  Users:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
   GetAllBuildsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -100,6 +112,21 @@ Resources:
             Path: /builds/{id}
             Method: get
 
+  RegisterUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/register_user/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Users
+      Events:
+        RegisterUser:
+          Type: Api
+          Properties:
+            Path: /register
+            Method: post
+
 Outputs:
   BuildsTableName:
     Description: Builds DynamoDB Table
@@ -110,3 +137,6 @@ Outputs:
   BlocksTableName:
     Description: Blocks DynamoDB Table
     Value: !Ref Blocks
+  UsersTableName:
+    Description: Users DynamoDB Table
+    Value: !Ref Users

@@ -23,3 +23,10 @@ Thumbs.db
 
 # Kiro
 /.kiro
+
+# Hypothesis
+/.hypothesis
+
+# Pytest
+.pytest_cache/
+*.pytest_cache
