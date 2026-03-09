@@ -26,3 +26,7 @@ Thumbs.db
 
 # Hypothesis
 /.hypothesis
+
+# Pytest
+.pytest_cache/
+*.pytest_cache
